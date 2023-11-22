@@ -10,6 +10,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -22,26 +23,72 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Color(0xFF00FFFF),
+    onPrimary = Color(0xFF0000FF),
+    primaryContainer = Color(0xFF5F9EA0),
+    onPrimaryContainer = Color(0xFF696969),
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    secondary = Color(0xFFFF0000), //not used?
+    onSecondary = Color(0xFFFF0000), //not used?
+    secondaryContainer = Color(0xFFFFE4B5),
+    onSecondaryContainer = Color(0xFFFFA500),
+
+    tertiary = Color(0xFFFF0000), //not used?
+    onTertiary = Color(0xFFFF0000), //not used?
+    tertiaryContainer = Color(0xFFFF0000), //not used?
+    onTertiaryContainer = Color(0xFFFF0000), //not used?
+
+    error = Color(0xFFFF0000),
+    onError = Color(0xFFFF0000),
+    errorContainer = Color(0xFFFF0000),
+    onErrorContainer = Color(0xFFFF0000),
+
+    surface = Color(0xFF8FBC8F),
+    onSurface = Color(0xFF006400),
+    surfaceVariant = Color(0xFF808000),
+    onSurfaceVariant = Color(0xFF00FF00),
+
+    background = Color(0xFFFAFAFA),
+    onBackground = Color(0xFF808080),
+    outline = Color(0xFFFF00FF),
 )
+
+/* Default colors to override
+    primary = Color.White,
+    onPrimary = Color.White,
+    primaryContainer = Color.White,
+    onPrimaryContainer = Color.White,
+    //
+    secondary = Color.White,
+    onSecondary = Color.White,
+    secondaryContainer = Color.White,
+    onSecondaryContainer = Color.White,
+    //
+    tertiary = Color.White,
+    onTertiary = Color.White,
+    tertiaryContainer = Color.White,
+    onTertiaryContainer = Color.White,
+    //
+    error = Color.White,
+    onError = Color.White,
+    errorContainer = Color.White,
+    onErrorContainer = Color.White,
+    //
+    surface = Color.White,
+    onSurface = Color.White,
+    surfaceVariant = Color.White,
+    onSurfaceVariant = Color.White,
+    //
+    background = Color.White,
+    onBackground = Color.White,
+    outline = Color.White,
+*/
 
 @Composable
 fun ComposeColorsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
