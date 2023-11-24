@@ -3,6 +3,7 @@
 package com.example.composecolors.screens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +19,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.Call
+import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.BottomAppBar
@@ -56,7 +59,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -76,13 +78,15 @@ fun FullScreen() {
         }
     ) {
         Column(modifier = Modifier
-            .padding(vertical = 60.dp, horizontal = 20.dp)
+            .padding(vertical = 65.dp, horizontal = 20.dp)
             .verticalScroll(rememberScrollState())
             .fillMaxHeight(1f)
         ) {
+            Text("Simple text (onBackground)")
             ShowButtons()
             ShowFields()
             ShowChecks()
+            ShowChips()
             ShowSliderAndIndicators()
             ShowCards()
             ShowExtFAB()
@@ -92,91 +96,150 @@ fun FullScreen() {
 
 @Composable
 private fun ShowButtons() {
-    Text("Simple text (onBackground)\nButtons:")
+    Divider(Modifier.padding(vertical = 8.dp))
+    Text("Buttons:")
     Row{
         Button(onClick = {}) { Text("Button") }
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+        Text("Text: onPrimary back: primary", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
     Row{
         FilledTonalButton(onClick = {}) { Text("FilledTonal") }
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+        Text("Text: onSecondaryContainer\nback: secondaryContainer", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
     Row{
         OutlinedButton(onClick = {}) { Text("Outlined") }
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+        Text("Text: primary back: background", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
     Row{
         ElevatedButton(onClick = {}) { Text("Elevated") }
-        Text("Text: back: surface", Modifier.align(alignment = Alignment.CenterVertically))
+        Text("Text: primary back: surface", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
     Row{
         TextButton(onClick = {}) { Text("Text button") }
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+        Text("Text: primary back: background", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
-    Divider()
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable
 private fun ShowFields() {
     Text("Fields:")
     Row{
-        TextField(value = "TextField", onValueChange = {}, modifier = Modifier.width(180.dp))
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+        TextField(value = "TextField", onValueChange = {}, modifier = Modifier.width(165.dp))
+        Text("Text: onSurface\nback: surfaceVariant\nline: onSurfaceVariant", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
-    Row{
-        OutlinedTextField(value = "OutlinedTextField", onValueChange = {}, modifier = Modifier.width(180.dp))
-        Text("Text: back:", Modifier.align(alignment = Alignment.CenterVertically))
+    Row(Modifier.padding(top = 15.dp)) {
+        OutlinedTextField(value = "OutlinedTextField", onValueChange = {}, modifier = Modifier.width(165.dp))
+        Text("Text: onSurface\nback: background", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
     }
-    Divider()
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable
 private fun ShowChecks() {
+    var checkbox by remember { mutableStateOf(false) }
+    var radiobtn by remember { mutableStateOf(false) }
+    var switch by remember { mutableStateOf(false) }
     Text("Checkbox:")
-    Checkbox(checked = false, onCheckedChange = {})
-    Checkbox(checked = true, onCheckedChange = {})
+    Row{
+        Checkbox(checked = checkbox, onCheckedChange = { checkbox = !checkbox})
+        Text(text = if (checkbox) "On: onPrimary / primary" else "Off: onSurfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+    }
+    Row{
+        Checkbox(checked = !checkbox, onCheckedChange = { checkbox = !checkbox})
+        Text(text = if (!checkbox) "On: onPrimary / primary" else "Off: onSurfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+    }
+    Divider(Modifier.padding(vertical = 8.dp))
     Text("RadioButton:")
-    RadioButton(selected = false, onClick = {})
-    RadioButton(selected = true, onClick = {})
+    Row{
+        RadioButton(selected = radiobtn, onClick = { radiobtn = !radiobtn })
+        Text(text = if (radiobtn) "On: primary" else "Off: onSurfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+    }
+    Row{
+        RadioButton(selected = !radiobtn, onClick = { radiobtn = !radiobtn })
+        Text(text = if (!radiobtn) "On: primary" else "Off: onSurfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+    }
+    Divider(Modifier.padding(vertical = 8.dp))
     Text("Switch:")
-    Switch(checked = false, onCheckedChange = {})
-    Switch(checked = true, onCheckedChange = {}, modifier = Modifier.padding(horizontal = 10.dp))
-    Divider()
+    Row{
+        Switch(checked = switch, onCheckedChange = { switch = !switch })
+        Text(text = if (switch) "1 thumb: onPrimary track: primary" else "0 thumb: outline track: surfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
+    }
+    Row{
+        Switch(checked = !switch, onCheckedChange = { switch = !switch })
+        Text(text = if (!switch) "1 thumb: onPrimary track: primary" else "0 thumb: outline track: surfaceVariant", modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
+    }
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable fun ShowChips() {
-    Text("Chips:")
-    AssistChip(
-        modifier = Modifier.padding(horizontal = 10.dp),
-        onClick = {},
-        label = { Text("Assist") },
-        leadingIcon = { Icon(Icons.Filled.Settings, null) }
-    )
     var selected by remember { mutableStateOf(true) }
-    FilterChip(
-        onClick = { selected = !selected },
-        label = { Text("Filter") },
-        selected = selected,
-        leadingIcon =
-        if (selected) {
-            { Icon(imageVector = Icons.Filled.Done, null) }
-        } else {
-            null
+    var logined by remember { mutableStateOf(true) }
+    Text("Chips:")
+    Row{
+        Box(modifier = Modifier.width(140.dp)) {
+            AssistChip(onClick = {}, label = { Text("Assist") }, leadingIcon = { Icon(Icons.Filled.Settings, null) })
         }
-    )
-    InputChip(
-        onClick = {},
-        label = { Text("Input") },
-        selected = true,
-        avatar = { Icon(Icons.Filled.Person, null) },
-        trailingIcon = { Icon(Icons.Default.Close, null) },
-    )
-    SuggestionChip(
-        modifier = Modifier.padding(horizontal = 10.dp),
-        onClick = {},
-        label = { Text("Suggestion") }
-    )
-    Divider()
+        Text("Text: onSurface\nback: background", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
+    }
+    Row(modifier = Modifier.padding(top = 5.dp)){
+        Box(modifier = Modifier.width(140.dp)) {
+            SuggestionChip(onClick = {}, label = { Text("Suggestion") })
+        }
+        Text("Text: onSurfaceVariant\nback: background", Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp))
+    }
+    Row(modifier = Modifier.padding(top = 5.dp)){
+        Box(modifier = Modifier.width(140.dp)) {
+            FilterChip(
+                onClick = { selected = !selected }, selected = selected,
+                label = { if (selected) { Text("Filter On") } else { Text("Filter Off") } } ,
+                leadingIcon = if (selected) { { Icon(imageVector = Icons.Filled.Done, null) } } else { null }
+            )
+        }
+        Text(modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp),
+            text = if (selected) "T: onSecondaryContainer\nback: secondaryContainer" else "T: onSurfaceVariant\nback: background"
+        )
+    }
+    Row(modifier = Modifier.padding(top = 5.dp)){
+        Box(modifier = Modifier.width(140.dp)) {
+            FilterChip(
+                onClick = { selected = !selected }, selected = !selected,
+                label = { if (!selected) { Text("Filter On") } else { Text("Filter Off") } } ,
+                leadingIcon = if (!selected) { { Icon(imageVector = Icons.Filled.Done, null) } } else { null }
+            )
+        }
+        Text(modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp),
+            text = if (!selected) "T: onSecondaryContainer\nback: secondaryContainer" else "T: onSurfaceVariant\nback: background"
+        )
+    }
+    Row(modifier = Modifier.padding(top = 5.dp)){
+        Box(modifier = Modifier.width(140.dp)) {
+            InputChip(
+                onClick = { logined = !logined }, selected = logined,
+                label = { if (logined) { Text("Input On") } else { Text("Input Off") } } ,
+                avatar = { Icon(Icons.Filled.Person, null) },
+                trailingIcon = { if (logined) { Icon(Icons.Default.Close,null) } else { null } }
+            )
+
+        }
+        Text(modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp),
+            text = if (logined) "T: onSecondaryContainer\nback: secondaryContainer" else "T: onSurfaceVariant\nback: background"
+        )
+    }
+    Row(modifier = Modifier.padding(top = 5.dp)){
+        Box(modifier = Modifier.width(140.dp)) {
+            InputChip(
+                onClick = { logined = !logined }, selected = !logined,
+                label = { if (!logined) { Text("Input On") } else { Text("Input Off") } } ,
+                avatar = { Icon(Icons.Filled.Person, null) },
+                trailingIcon = { if (!logined) { Icon(Icons.Default.Close,null) } else { null } }
+            )
+        }
+        Text(modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(start = 8.dp),
+            text = if (!logined) "T: onSecondaryContainer\nback: secondaryContainer" else "T: onSurfaceVariant\nback: background"
+        )
+    }
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable
@@ -186,37 +249,43 @@ private fun ShowSliderAndIndicators() {
     Slider(value = sliderPosition, onValueChange = { sliderPosition = it})
     Text("LinearProgressIndicator:")
     LinearProgressIndicator(progress = sliderPosition)
-    Text("CircularProgressIndicator:")
-    CircularProgressIndicator(progress = sliderPosition)
-    Divider()
+    Row(Modifier.padding(top = 15.dp)){
+        Text("CircularProgressIndicator:", modifier = Modifier.align(alignment = Alignment.CenterVertically).padding(end = 20.dp))
+        CircularProgressIndicator(progress = sliderPosition)
+    }
+    Text("progress: primary back: surfaceVariant")
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable
 private fun ShowCards() {
+    Card(Modifier.padding(5.dp)) {
+        Row(Modifier.padding(15.dp)){
+            Text("Card\ntext: onSurfaceVariant\nback: surfaceVariant", Modifier.align(alignment = Alignment.CenterVertically))
+            Icon(Icons.Rounded.Build, null)
+        }
+    }
     ElevatedCard(Modifier.padding(5.dp)) {
         Row(Modifier.padding(15.dp)){
-            Text("Elevated\nsurface/onSurface", Modifier.align(alignment = Alignment.CenterVertically))
+            Text("ElevatedCard\ntext: onSurface\nback: surface", Modifier.align(alignment = Alignment.CenterVertically))
+            Icon(Icons.Rounded.Call, null)
         }
     }
     OutlinedCard(Modifier.padding(5.dp)) {
         Row(Modifier.padding(15.dp)){
-            Text("Outlined\nsurface/onSurface", Modifier.align(alignment = Alignment.CenterVertically))
+            Text("OutlinedCard\ntext: onSurface\nback: surface", Modifier.align(alignment = Alignment.CenterVertically))
+            Icon(Icons.Rounded.Email, null)
         }
     }
-    Card(Modifier.padding(5.dp)) {
-        Row(Modifier.padding(15.dp)){
-            Text("Card\nsurfaceVariant/onSurfaceVariant", Modifier.align(alignment = Alignment.CenterVertically))
-            Icon(Icons.Rounded.Build, null)
-        }
-    }
-    Divider()
+
+    Divider(Modifier.padding(vertical = 8.dp))
 }
 
 @Composable
 private fun ShowExtFAB() {
     ExtendedFloatingActionButton(
         icon = { Icon(Icons.Rounded.AccountBox, null) },
-        text = { Text("Extended FAB") },
+        text = { Text("Extended FAB\ntext: onPrimaryContainer\nback: primaryContainer") },
         onClick = {}
     )
     Text("\n\n\nThe end...")
